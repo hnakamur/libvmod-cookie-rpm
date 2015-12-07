@@ -1,7 +1,7 @@
 %global libvmod_cookie_git_branch 4.1
 
 Name:              libvmod-cookie
-Version:           20150915
+Version:           20151207
 Release:           1%{?dist}
 Summary:           Varnish Cookie VMOD
 License:           FreeBSD
