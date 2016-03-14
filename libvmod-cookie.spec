@@ -1,11 +1,11 @@
-%global libvmod_cookie_git_branch 4.1
+%global libvmod_cookie_git_branch 4.1-update
 
 Name:              libvmod-cookie
 Version:           20151207
-Release:           1%{?dist}
+Release:           1.el6
 Summary:           Varnish Cookie VMOD
 License:           FreeBSD
-Source:            https://github.com/lkarsten/libvmod-cookie/archive/%{libvmod_cookie_git_branch}.tar.gz#/libvmod-cookie-%{libvmod_cookie_git_branch}.tar.gz
+Source:            https://github.com/wjordan/libvmod-cookie/archive/%{libvmod_cookie_git_branch}.tar.gz#/libvmod-cookie-%{libvmod_cookie_git_branch}.tar.gz
 URL:               https://www.varnish-cache.org/vmod/cookie
 Requires:          varnish >= 4.1.0
 BuildRequires:     varnish-libs-devel >= 4.1.0
@@ -14,6 +14,7 @@ BuildRequires:     automake
 BuildRequires:     autoconf
 BuildRequires:     libtool
 BuildRequires:     python-docutils
+BuildRequires:     python-six
 
 %description
 Varnish VMOD for Cookie.
@@ -28,7 +29,7 @@ A convenience function for formatting the Set-Cookie Expires date field is also 
 
 %build
 ./autogen.sh
-./configure --prefix=%{_prefix}
+%configure --prefix=%{_prefix}
 make
 
 %install
