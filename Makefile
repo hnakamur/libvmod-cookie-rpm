@@ -17,6 +17,9 @@ debug: build .env
 lint: build .env
 	@docker run --rm -ti -v $(pwd)/.rpmlintrc:/root/.rpmlintrc --entrypoint bash libvmod-cookie -c "rpmlint -i /root/rpmbuild/SPECS/* /root/rpmbuild/SRPMS/*"
 
+shelllint:
+	@docker run --rm -ti -v $(pwd):/tmp davidhrbac/docker-shellcheck bash -c "shellcheck /tmp/copr-build.sh"
+
 dockerlint:
 	@docker run -v $(pwd)/Dockerfile:/Dockerfile --rm -ti lukasmartinelli/hadolint hadolint /Dockerfile
 
