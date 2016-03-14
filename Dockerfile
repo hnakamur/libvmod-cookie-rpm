@@ -1,19 +1,18 @@
 FROM centos:7
 MAINTAINER Hiroaki Nakamura <hnakamur@gmail.com>
 
-ENV LIBVMOD_COOKIE_GIT_BRANCH 4.1
-
 RUN yum -y install epel-release \
- && yum -y install rpmdevtools rpm-build patch python-pip \
- && pip install copr-cli \
- && rpmdev-setuptree \
- && cd /root/rpmbuild/SOURCES \
- && curl -sLO https://github.com/lkarsten/libvmod-cookie/archive/${LIBVMOD_COOKIE_GIT_BRANCH}.tar.gz#/libvmod-cookie-${LIBVMOD_COOKIE_GIT_BRANCH}.tar.gz
+ && yum -y install rpmdevtools rpm-build patch python-pip rpmlint \
+ && pip install copr-cli==1.46.1 progress==1.2 \
+ && rpmdev-setuptree
 
-ADD libvmod-cookie.spec /root/rpmbuild/SPECS/
+COPY ./libvmod-cookie.spec /root/rpmbuild/SPECS/
+RUN spectool --all -g /root/rpmbuild/SPECS/libvmod-cookie.spec -C /root/rpmbuild/SOURCES
 
-RUN cd /root/rpmbuild/SPECS \
- && rpmbuild -bs libvmod-cookie.spec
+WORKDIR /root/rpmbuild/SPECS
+RUN rpmbuild -bs libvmod-cookie.spec
 
-ADD copr-build.sh /root/
+COPY copr-build.sh /root/
+WORKDIR /root
+ENV HOME /root
 ENTRYPOINT ["/bin/bash", "/root/copr-build.sh"]
